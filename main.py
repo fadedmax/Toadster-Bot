@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+import json
 client = commands.Bot(command_prefix="g?", case_insensitive=True, help_command=None)
 
 @client.event
@@ -49,5 +50,7 @@ async def reload(ctx, cog):
     client.load_extension(f"Cogs.{cog}")
     await ctx.reply(f"Reloaded cog: {cog}")
 
-
-client.run("OTA5NzYzNjM4NDA2MDI1MjI2.YZJBaQ._6cTFl-xcD7b0ZpuNEIixkFE_Tw")
+with open("secrets.json", "r") as f:
+    a=json.load(f)
+    token=a['token']
+client.run(token)
