@@ -52,5 +52,5 @@ async def reload(ctx, cog):
 
 with open("secrets.json", "r") as f:
     a=json.load(f)
-    token=a['token']
+    token=a['TOKEN']
 client.run(token)

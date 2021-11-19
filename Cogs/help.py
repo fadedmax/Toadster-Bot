@@ -26,7 +26,9 @@ class help(commands.Cog):
     @commands.Cog.listener()
     async def on_dropdown(self, inter):
         commands = ""
-        a = commands.Cog(inter.select_menu.selected_options[0].label)
+        a = inter.select_menu.selected_options[0].label
+        a= self.bot.get_cog(a)
+        a = a.get_commands()
         for i in a:
             commands += f"`{i.name}` "
         embed=discord.Embed(title=f"{inter.select_menu.selected_options[0].label} Commands", description=f"{commands}")
