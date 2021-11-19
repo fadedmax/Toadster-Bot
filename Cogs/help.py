@@ -30,7 +30,10 @@ class help(commands.Cog):
         a= self.bot.get_cog(a)
         a = a.get_commands()
         for i in a:
-            commands += f"`{i.name}` "
+            if len(a) == 3 or len(a) or len(a) == 6 or len(a) == 9 or len(a) == 12:
+                commands += f"`{i.name}`\n"
+            else:
+                commands += f"`{i.name}` "
         embed=discord.Embed(title=f"{inter.select_menu.selected_options[0].label} Commands", description=f"{commands}")
         await helpmsg.edit(embed=embed)
 def setup(bot):
