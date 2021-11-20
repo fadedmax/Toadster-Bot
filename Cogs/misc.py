@@ -8,6 +8,7 @@ import operator
 import asyncio
 class misc(commands.Cog):
     def __init__(self, bot):
+        apikey = "lmWpIMRSRzZ0dJE5EFfV2p2gt"
         self.bot = bot
     @commands.command()
     async def screenshot(self, ctx, url):
@@ -78,8 +79,8 @@ class misc(commands.Cog):
          member=ctx.author
          with open("./dicts/levels.json", "r") as f:
             users = json.load(f, object_pairs_hook=collections.OrderedDict)
-         xp = str(users["users"][f"{member.id}"]["xp"])
-         level = users['users'][f"{member.id}"]['level']
+         xp = str(users[f'{ctx.guild.id}']['users'][f'{member.id}']['xp'])
+         level = users[f'{ctx.guild.id}']['users'][f'{member.id}']['level']
 
          if int(xp) <= 999:
             xp = xp
@@ -93,7 +94,7 @@ class misc(commands.Cog):
 
 
          level_dict = {0:255, 1:510, 2:1020, 3:2040, 4:4080, 5:8160, 6:"16,320", 7:"32,640", 8:"65,280", 9:"130,560", 10:"261,120"}
-         request = requests.get(f"https://some-random-api.ml/premium/rankcard/1?key=lmWpIMRSRzZ0dJE5EFfV2p2gt&username={member.name}&discriminator={member.discriminator}&avatar={member.avatar_url_as(format='png')}&cxp={xp}&nxp={level_dict.get(users['users'][f'{member.id}']['level'])}&level={level}&cbg=3f3f3f&ctext=ffffff&ccxp=39d0fd&cbar=ffffff")
+         request = requests.get(f"https://some-random-api.ml/premium/rankcard/1?key=lmWpIMRSRzZ0dJE5EFfV2p2gt&username={member.name}&discriminator={member.discriminator}&avatar={member.avatar_url_as(format='png')}&cxp={xp}&nxp={level_dict.get(users[f'{ctx.guild.id}']['users'][f'{member.id}']['level'])}&level={level}&cbg=3f3f3f&ctext=ffffff&ccxp=39d0fd&cbar=ffffff")
          file = open("./assests/rankcard.png", "wb")
          file.write(request.content)
          file.close()
@@ -101,8 +102,8 @@ class misc(commands.Cog):
         else:
             with open("./dicts/levels.json", "r") as f:
                users = json.load(f, object_pairs_hook=collections.OrderedDict)
-            xp = str(users["users"][f"{member.id}"]["xp"])
-            level = users['users'][f"{member.id}"]['level']
+            xp = str(users[f'{ctx.guild.id}']['users'][f'{member.id}']['xp'])
+            level = users[f'{ctx.guild.id}']['users'][f'{member.id}']['level']
 
             if int(xp) <= 999:
                xp = xp
@@ -116,7 +117,7 @@ class misc(commands.Cog):
 
 
             level_dict = {0:255, 1:510, 2:1020, 3:2040, 4:4080, 5:8160, 6:"16,320", 7:"32,640", 8:"65,280", 9:"130,560", 10:"261,120"}
-            request = requests.get(f"https://some-random-api.ml/premium/rankcard/1?key=lmWpIMRSRzZ0dJE5EFfV2p2gt&username={member.name}&discriminator={member.discriminator}&avatar={member.avatar_url_as(format='png')}&cxp={xp}&nxp={level_dict.get(users['users'][f'{member.id}']['level'])}&level={level}&cbg=3f3f3f&ctext=ffffff&ccxp=39d0fd&cbar=ffffff")
+            request = requests.get(f"https://some-random-api.ml/premium/rankcard/1?key={apikey}&username={member.name}&discriminator={member.discriminator}&avatar={member.avatar_url_as(format='png')}&cxp={xp}&nxp={level_dict.get(users['users'][f'{member.id}']['level'])}&level={level}&cbg=3f3f3f&ctext=ffffff&ccxp=39d0fd&cbar=ffffff")
             file = open("./assests/rankcard.png", "wb")
             file.write(request.content)
             file.close()

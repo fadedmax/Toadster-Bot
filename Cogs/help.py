@@ -10,6 +10,8 @@ class help(commands.Cog):
     async def help(self, ctx, category=None):
         if category == None:
             global helpmsg
+            global helpuser
+            helpuser=ctx.author
             embed=discord.Embed(title=f"Hey {ctx.author}!", description="Please select a category", color=discord.Colour.red())
             options = []
             for i in self.bot.cogs:
@@ -25,6 +27,9 @@ class help(commands.Cog):
             helpmsg = await ctx.send(embed=embed, components=[SelectMenu(custom_id="helpmenu", max_values=1, placeholder="Select a category...", options=options)])
     @commands.Cog.listener()
     async def on_dropdown(self, inter):
+        if inter.author != helpuser:
+            await inter.reply(f"You did not run this command! Do g?help", ephemeral=True)
+            return
         commands = ""
         a = inter.select_menu.selected_options[0].label
         a= self.bot.get_cog(a)

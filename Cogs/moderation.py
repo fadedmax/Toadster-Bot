@@ -12,18 +12,21 @@ class moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def warn(self, ctx, user:discord.User, reason=None):
-        if reason == None:
-            reason="No reason provided"
         with open("./dicts/warns.json", "r") as f:
             users=json.load(f)
-        if f"{user.id}" not in users:
-            users[f'{user.id}'] = {"warns": [{f"{ctx.message.created_at}":f"{reason}"}]}
+        if reason == None:
+            reason="No reason provided"
+        if f"{ctx.guild.id}" not in users:
+            users[f'{ctx.guild.id}'] = {}
+
+        if f"{user.id}" not in users[f'{ctx.guild.id}']:
+            users[f'{ctx.guild.id}'][f'{user.id}'] = {"warns": [{f"{ctx.message.created_at}":f"{reason}"}]}
             await ctx.reply(f"Warned {user.mention} for reason: {reason}, this is their first warning.")
             with open("./dicts/warns.json", "w") as f2:
                 json.dump(users, f2)
         else:
-            users[f'{user.id}']['warns'].append({f"{ctx.message.created_at}":f"{reason}"})
-            await ctx.reply(f"Warned {user.mention} for reason: {reason}, this is their {len(users[f'{user.id}']['warns'])} warning.")
+            users[f'{ctx.guild.id}'][f'{user.id}']['warns'].append({f"{ctx.message.created_at}":f"{reason}"})
+            await ctx.reply(f"Warned {user.mention} for reason: {reason}, this is their {len(users[f'{ctx.guild.id}'][f'{user.id}']['warns'])} warning.")
             with open("./dicts/warns.json", "w") as f2:
                 json.dump(users, f2)
 
@@ -33,10 +36,10 @@ class moderation(commands.Cog):
         with open("./dicts/warns.json", "r") as f:
             users=json.load(f)
         warnList=""
-        if f"{user.id}" not in users or len(users[f'{user.id}']['warns']) == 0:
+        if f"{user.id}" not in users[f'{ctx.guild.id}'] or len(users[f'{ctx.guild.id}'][f'{user.id}']['warns']) == 0:
             await ctx.reply(f"{user.mention} Was never warned.")
         else:
-            for warn in users[f'{user.id}']['warns']:
+            for warn in users[f'{ctx.guild.id}'][f'{user.id}']['warns']:
                 warnList += f"`{list(warn.keys())[0]} | {list(warn.values())[0]}`\n"
             embed=discord.Embed(title="Warn list for {}".format(user), description=f"History:\n{warnList}")
             await ctx.reply(embed=embed)
@@ -54,7 +57,7 @@ class moderation(commands.Cog):
                 json.dump(users, f)
             return
         for i in range(limit):
-            users[f'{user.id}']['warns'].remove(users[f'{user.id}']['warns'][len(users[f'{user.id}']['warns'])-1])
+            users[f'{ctx.guild.id}'][f'{user.id}']['warns'].remove(users[f'{ctx.guild.id}'][f'{user.id}']['warns'][len(users[f'{ctx.guild.id}'][f'{user.id}']['warns'])-1])
         with open("./dicts/warns.json", "w") as f:
             json.dump(users, f)
         await ctx.reply(f"Removed {limit} warns from {user.mention}")

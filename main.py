@@ -18,6 +18,9 @@ async def on_ready():
     for cog in client.cogs:
         print(cog)
 
+
+
+
 class colors:
     default = 0
     teal = 0x1abc9c
@@ -55,8 +58,8 @@ async def reload(ctx, cog):
     else:
         client.load_extension("Cogs.{}".format(cog))
         await ctx.reply(f"Loaded cog: {cog}")
-        
-    
+
+
 
 with open("secrets.json", "r") as f:
     a=json.load(f)

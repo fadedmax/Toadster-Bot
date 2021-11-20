@@ -18,27 +18,7 @@ class fun(commands.Cog):
      json = request.json()
      embed=discord.Embed(title=json['title'], url=json['postLink'])
      embed.set_image(url=json['url'])
-     msg = await ctx.reply(embed=embed, components=[
-   Button(
-   label="Next Meme",
-   style=ButtonStyle.green,
-   custom_id="nextmeme"
- )
- ])
-     on_click = msg.create_click_listener(timeout=60)
-     @on_click.matching_id("nextmeme")
-     async def onButton(inter):
-      request = requests.get("https://meme-api.herokuapp.com/gimme/dankmemes")
-      json = request.json()
-      embed=discord.Embed(title=json['title'], url=json['postLink'])
-      embed.set_image(url=json['url'])
-      msg2=await msg.edit(embed=embed, components=[Button(
-      label="Next Meme",
-      style=ButtonStyle.green,
-      custom_id="nextmeme"
- )
- ])
-      await inter.reply("Showing next meme", ephemeral=True)
+     msg = await ctx.reply(embed=embed)
 
 
     @commands.command()
@@ -47,23 +27,8 @@ class fun(commands.Cog):
             json = request.json()
             embed=discord.Embed(title=json['title'], url=json['postLink'])
             embed.set_image(url=json['url'])
-            msg = await ctx.reply(embed=embed, components=[
-          Button(
-          label="Next post",
-          style=ButtonStyle.green,
-          custom_id="redditNext"
-        )
-        ])
-            inter=msg.create_click_listener()
-            @inter.matching_id("redditNext")
-            async def red(inter):
-                request = requests.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}")
-                json = request.json()
-                embed=discord.Embed(title=json['title'], url=json['postLink'])
-                embed.set_image(url=json['url'])
-                await msg.edit(embed=embed)
-                await inter.reply("Showing next post", ephemeral=True)
-                return
+            msg = await ctx.reply(embed=embed)
+
 
 
     @commands.command()
@@ -149,6 +114,15 @@ class fun(commands.Cog):
 
         embed2=discord.Embed(title=f"I chose {choice}, and you chose {result}, winner is... **{winner}**")
         await msg.edit(embed=embed2, components=None)
+
+    @commands.command()
+    async def ascii(self, ctx, *, text:str):
+        if len(text.lower()) > 16:
+            await ctx.reply("Message too long!")
+            return
+        request= requests.get(f"https://artii.herokuapp.com/make?text={text}")
+        result = request.text
+        await ctx.reply(f"```\n{result}\n```")
 
 
 
