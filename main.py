@@ -12,7 +12,6 @@ async def on_ready():
     client.load_extension("Cogs.listeners")
     client.load_extension("Cogs.misc")
     client.load_extension("Cogs.moderation")
-    client.load_extension("Cogs.error")
     client.load_extension("Cogs.help")
 
     for cog in client.cogs:
