@@ -42,51 +42,7 @@ class fun(commands.Cog):
 
 
     @commands.command()
-    async def reddit(self, ctx, subreddit=None):
-
-        if subreddit == None:
-            embed=discord.Embed(title="Please select a subreddit **or** click on others.", color=0)
-            row = ActionRow(Button(style=ButtonStyle.green, label="Dankmemes", custom_id="dank"), Button(style=ButtonStyle.green, label="Cat", custom_id="cat"), Button(style=ButtonStyle.green, label="Dog", custom_id="dog"), Button(style=ButtonStyle.grey, label="Others", custom_id="others"))
-            msg = await ctx.send(embed=embed, components=[row])
-            on_click=msg.create_click_listener()
-            @on_click.matching_id("dank")
-            async def on_dank_button(inter):
-                request = requests.get("https://meme-api.herokuapp.com/gimme/dankmemes")
-                json = request.json()
-                embed=discord.Embed(title=json['title'], url=json['postLink'])
-                embed.set_image(url=json['url'])
-                rowdank = ActionRow(Button(style=ButtonStyle.green, label="Next Post", custom_id="dank"))
-                await msg.edit(embed=embed, components=[rowdank])
-                await inter.reply("Showing dankmemes post", ephemeral=True)
-            @on_click.matching_id("cat")
-            async def on_dank_button(inter):
-                request = requests.get("https://meme-api.herokuapp.com/gimme/cats")
-                json = request.json()
-                embed=discord.Embed(title=json['title'], url=json['postLink'])
-                embed.set_image(url=json['url'])
-                rowdank = ActionRow(Button(style=ButtonStyle.green, label="Next Post", custom_id="cat"))
-                await msg.edit(embed=embed, components=[rowdank])
-                await inter.reply("Showing cat post", ephemeral=True)
-            @on_click.matching_id("dog")
-            async def on_dank_button(inter):
-                request = requests.get("https://meme-api.herokuapp.com/gimme/dog")
-                json = request.json()
-                embed=discord.Embed(title=json['title'], url=json['postLink'])
-                embed.set_image(url=json['url'])
-                rowdank= ActionRow(Button(style=ButtonStyle.green, label="Next post", custom_id="dog"))
-                await msg.edit(embed=embed, components=[rowdank])
-                await inter.reply("Showing dog post", ephemeral=True)
-            @on_click.matching_id("others")
-            async def on_other_click(inter):
-                await inter.reply("What reddit would you like to search for?")
-                msg2 = await self.bot.wait_for("message")
-                request = requests.get("https://meme-api.herokuapp.com/gimme/{}".format(msg2.content))
-                json = request.json()
-                embed=discord.Embed(title=json['title'], url=json['postLink'])
-                embed.set_image(url=json['url'])
-                await msg.edit(embed=embed)
-                await inter.reply(f"Showing {msg2.content} post", ephemeral=True)
-        else:
+    async def reddit(self, ctx, subreddit):
             request = requests.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}")
             json = request.json()
             embed=discord.Embed(title=json['title'], url=json['postLink'])
@@ -95,23 +51,20 @@ class fun(commands.Cog):
           Button(
           label="Next post",
           style=ButtonStyle.green,
-          custom_id="nextmeme"
+          custom_id="redditNext"
         )
         ])
-            on_click = msg.create_click_listener(timeout=60)
-            @on_click.matching_id("nextmeme")
-            async def onButton(inter):
-             request = requests.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}")
-             json = request.json()
-             embed=discord.Embed(title=json['title'], url=json['postLink'])
-             embed.set_image(url=json['url'])
-             msg2=await msg.edit(embed=embed, components=[Button(
-             label="Next post",
-             style=ButtonStyle.green,
-             custom_id="nextmeme"
-        )
-        ])
-             await inter.reply("Showing next post", ephemeral=True)
+            inter=msg.create_click_listener()
+            @inter.matching_id("redditNext")
+            async def red(inter):
+                request = requests.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}")
+                json = request.json()
+                embed=discord.Embed(title=json['title'], url=json['postLink'])
+                embed.set_image(url=json['url'])
+                await msg.edit(embed=embed)
+                await inter.reply("Showing next post", ephemeral=True)
+                return
+
 
     @commands.command()
     async def mcinfo(self, ctx, minecraftusername):

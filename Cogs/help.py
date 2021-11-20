@@ -33,6 +33,6 @@ class help(commands.Cog):
             commands += f"`{i.name}` "
         embed=discord.Embed(title=f"{inter.select_menu.selected_options[0].label} Commands", description=f"{commands}", color=discord.Colour.green())
         await helpmsg.edit(embed=embed)
-        await inter.reply(f"Showing {inter.select_menu.selected_options[0].label} commands")
+        await inter.reply(f"Showing {inter.select_menu.selected_options[0].label} commands", ephemeral=True)
 def setup(bot):
     bot.add_cog(help(bot))

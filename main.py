@@ -46,9 +46,17 @@ class colors:
 @client.command()
 @commands.is_owner()
 async def reload(ctx, cog):
-    client.unload_extension("Cogs.{}".format(cog))
-    client.load_extension(f"Cogs.{cog}")
-    await ctx.reply(f"Reloaded cog: {cog}")
+    try:
+        client.unload_extension("Cogs.{}".format(cog))
+        client.load_extension(f"Cogs.{cog}")
+        await ctx.reply(f"Reloaded cog: {cog}")
+    except commands.ExtensionNotFound:
+        await ctx.reply("No cog with that name!")
+    else:
+        client.load_extension("Cogs.{}".format(cog))
+        await ctx.reply(f"Loaded cog: {cog}")
+        
+    
 
 with open("secrets.json", "r") as f:
     a=json.load(f)
