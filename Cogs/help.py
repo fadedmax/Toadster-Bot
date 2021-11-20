@@ -10,7 +10,7 @@ class help(commands.Cog):
     async def help(self, ctx, category=None):
         if category == None:
             global helpmsg
-            embed=discord.Embed(title=f"Hey {ctx.author}!", description="Please select a category")
+            embed=discord.Embed(title=f"Hey {ctx.author}!", description="Please select a category", color=discord.Colour.red())
             options = []
             for i in self.bot.cogs:
                 if i == "listeners" or i == "dev_commands" or i == "error":
@@ -31,7 +31,8 @@ class help(commands.Cog):
         a = a.get_commands()
         for i in a:
             commands += f"`{i.name}` "
-        embed=discord.Embed(title=f"{inter.select_menu.selected_options[0].label} Commands", description=f"{commands}")
+        embed=discord.Embed(title=f"{inter.select_menu.selected_options[0].label} Commands", description=f"{commands}", color=discord.Colour.green())
         await helpmsg.edit(embed=embed)
+        await inter.reply(f"Showing {inter.select_menu.selected_options[0].label} commands")
 def setup(bot):
     bot.add_cog(help(bot))
