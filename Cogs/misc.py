@@ -27,7 +27,8 @@ class misc(commands.Cog):
     @commands.command()
     async def ascii(self, ctx, *, text):
         if len(text) > 14:
-            return await ctx.reply("Message too long!")    
+            return await ctx.reply("Message too long!") 
+               
 
 
 def setup(bot):
