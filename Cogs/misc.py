@@ -26,14 +26,10 @@ class misc(commands.Cog):
         await ctx.reply(file=discord.File("./assests/jailed.png"))    
 
     @commands.command()
-    async def ascii(self, ctx, *text):
-        if len(text) > 4:
-            return await ctx.reply("Message too long!") 
-        result = ""    
-        for i in text:
-                result += f"{art.text2art(i)}"
-
-        await ctx.reply(f"```\n{result}\n```")
+    async def ascii(self, ctx, *, text):
+        if len(text).upper() > 15:
+            return await ctx.reply("Message too long!")
+        await ctx.reply(f"```\n{art.text2art(text)}\n```")
 
     @commands.command()
     async def art(self, ctx, query):
