@@ -13,6 +13,8 @@ class listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, msg):
+        if msg.author.bot:
+            return
         with open("./dicts/deleted_messages.json", "r") as f:
             load = json.load(f)
 
@@ -49,7 +51,7 @@ class listeners(commands.Cog):
             level_5 = discord.utils.get(msg.guild.roles, name="Corporal (Level 5)")
             level_10 = discord.utils.get(msg.guild.roles, name="Sergeant (Level 10)")
 
-            users[f'{msg.guild.id}']['users'][f'{msg.author.id}']['xp'] += random.choice([5, 10, 15, 20])
+            users[f'{msg.guild.id}']['users'][f'{msg.author.id}']['xp'] += 5
 
             if xp == 255 and level == 0:
                 users[f'{msg.guild.id}']['users'][f'{msg.author.id}']['level'] = 1
@@ -116,6 +118,10 @@ class listeners(commands.Cog):
 
             with open("./dicts/levels.json", "w") as f2:
                 json.dump(users, f2)
+
+
+                
+                
 
 def setup(bot):
     bot.add_cog(listeners(bot))

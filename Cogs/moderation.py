@@ -191,5 +191,35 @@ class moderation(commands.Cog):
           embed=discord.Embed(title="✅ Channel unlocked!", color=0x00ff11)
           await ctx.channel.send(embed=embed)
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def rawembed(self, ctx, *, raw):
+        foo = json.loads(raw)
+
+        if 'content' in foo['title']:
+            title = foo['title']['content']
+        else:
+            await ctx.send("Rawembed must have a title!")
+            return    
+        if 'description' not in foo:
+            description= ""
+        else:
+            description=foo['description']    
+        if 'color' not in foo:
+            color=0
+        else:
+            color=getattr(discord.Colour, foo['color'])
+        if 'url' not in foo['title']:
+            titleurl = ""
+        else:
+            titleurl=foo['title']['url']
+        if 'footer' not in foo:
+            footer = ""
+        else:
+            footer=foo['footer']
+        embed=discord.Embed(title=title, url=titleurl, description=description, color=color)
+        embed.set_footer(text=footer)
+        await ctx.send(embed=embed)                             
+
 def setup(bot):
     bot.add_cog(moderation(bot))
