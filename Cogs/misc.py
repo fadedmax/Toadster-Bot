@@ -1,5 +1,7 @@
 import discord
 from discord.ext import commands
+import text2art
+import art
 import requests
 
 class misc(commands.Cog):
@@ -28,7 +30,12 @@ class misc(commands.Cog):
     async def ascii(self, ctx, *, text):
         if len(text) > 14:
             return await ctx.reply("Message too long!") 
-               
+        await ctx.reply(f"```\n{text2art.text2art(text, font='block')}\n```")
+
+    @commands.command()
+    async def art(self, ctx, query):
+        await ctx.reply(f"```\n{art.art(query)}\n```")     
+
 
 
 def setup(bot):
