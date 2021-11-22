@@ -115,15 +115,6 @@ class fun(commands.Cog):
         embed2=discord.Embed(title=f"I chose {choice}, and you chose {result}, winner is... **{winner}**")
         await msg.edit(embed=embed2, components=None)
 
-    @commands.command()
-    async def ascii(self, ctx, *, text:str):
-        if len(text.lower()) > 16:
-            await ctx.reply("Message too long!")
-            return
-        request= requests.get(f"https://artii.herokuapp.com/make?text={text}")
-        result = request.text
-        await ctx.reply(f"```\n{result}\n```")
-
     @commands.command()    
     async def hack(self, ctx, user:discord.User):
         ip = f"192.225.{random.randint(0, 100)}.{random.randint(0, 10)}"

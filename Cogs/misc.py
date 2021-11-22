@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-import text2art
 import art
 import requests
 
@@ -27,14 +26,21 @@ class misc(commands.Cog):
         await ctx.reply(file=discord.File("./assests/jailed.png"))    
 
     @commands.command()
-    async def ascii(self, ctx, *, text):
-        if len(text) > 14:
+    async def ascii(self, ctx, *text):
+        if len(text) > 4:
             return await ctx.reply("Message too long!") 
-        await ctx.reply(f"```\n{text2art.text2art(text, font='block')}\n```")
+        result = ""    
+        for i in text:
+                result += f"{art.text2art(i)}"
+
+        await ctx.reply(f"```\n{result}\n```")
 
     @commands.command()
     async def art(self, ctx, query):
-        await ctx.reply(f"```\n{art.art(query)}\n```")     
+        try:
+            await ctx.reply(f"```\n{art.art(query)}\n```")  
+        except artError:
+            await ctx.reply("Invalid art!")       
 
 
 
