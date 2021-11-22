@@ -30,7 +30,6 @@ async def embed(inter, title=None):
 @client.event
 async def on_ready():
     print("Running...\n[--Available cogs--]\n")
-    client.load_extension("Cogs.dev_commands")
     client.load_extension("Cogs.fun")
     client.load_extension("Cogs.listeners")
     client.load_extension("Cogs.misc")
