@@ -89,6 +89,7 @@ async def eval(ctx, *, code:str):
         status = 400
     await ctx.reply(f"Evaluation exited with return status: {status}, ```py\n[in]:\n{code}\n[out]:\n{output}n```")
 
+@
 with open("secrets.json", "r") as f:
     a=json.load(f)
     token=a['TOKEN']
