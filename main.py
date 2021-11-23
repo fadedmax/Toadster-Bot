@@ -3,29 +3,14 @@ from discord.ext import commands
 import os
 from dislash import InteractionClient, Option, OptionType
 import json
+from discord_slash import SlashCommand
+
 
 intents=discord.Intents().all()
 client = commands.Bot(command_prefix="g?", case_insensitive=True, help_command=None, intents=intents)
-
+slash = SlashCommand(client, sync_commands=True)
 inter_client = InteractionClient(client)
-test_guilds = [855956103917338624, 869724417406697532]   # Insert ID of your guild here
 
-@inter_client.slash_command(
-    guild_ids=test_guilds,
-    description="Builds a custom embed",
-    options=[
-        Option('title', 'Makes the title of the embed', OptionType.STRING),
-        Option('description', 'Makes the description', OptionType.STRING),
-        Option('color', 'The color of the embed', OptionType.STRING)
-
-        # Note that all args are optional
-        # because we didn't specify required=True in Options
-    ]
-)
-async def embed(inter, title=None):
-    # Converting color
-    embed=discord.Embed(title=title)
-    await inter.reply(embed=embed)
     
 @client.event
 async def on_ready():

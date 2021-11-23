@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import random
 import art
 import requests
 
@@ -66,7 +67,28 @@ class misc(commands.Cog):
         file=open("./assests/comrade.png", "wb")
         file.write(request.content)
         file.close()
-        await ctx.reply(file=discord.File("./assests/comrade.png"))                
+        await ctx.reply(file=discord.File("./assests/comrade.png"))   
+
+    @commands.command()
+    async def gay(self, ctx, user:discord.User=None):
+        if user == None:
+            user = ctx.author
+        request = requests.get("https://some-random-api.ml/canvas/gay?avatar={}".format(user.avatar_url_as(format='png')))
+        file = open("./assests/gay.png", "wb")
+        file.write(request.content)
+        file.close()
+        await ctx.reply(file=discord.File("./assests/gay.png"))        
+
+    @commands.command()
+    async def comment(self, ctx, user:discord.User, *, message):
+        if user == discord.User:
+            request = requests.get(f"https://some-random-api.ml/canvas/youtube-comment?avatar={user.avatar_url_as(format='png')}&username={user.name}&comment={message}")       
+
+        file = open("./assests/tweet.png", "wb")
+        file.write(request.content)
+        file.close()
+        await ctx.reply(file=discord.File("./assests/tweet.png"))
+
 
 
 
