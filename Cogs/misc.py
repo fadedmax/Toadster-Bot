@@ -19,7 +19,7 @@ class misc(commands.Cog):
     async def jail(self, ctx, user:discord.User=None):
         if user == None:
             user = ctx.author
-        request = requests.get(f"https://some-random-api.ml/canvas/jail?avatar={ctx.author.avatar_url(format='png')}")
+        request = requests.get(f"https://some-random-api.ml/canvas/jail?avatar={user.avatar_url_as(format='png')}")
         file=open("./assests/jailed.png", "wb")
         file.write(request.content)
         file.close()
@@ -27,7 +27,7 @@ class misc(commands.Cog):
 
     @commands.command()
     async def ascii(self, ctx, *, text):
-        if len(text).upper() > 15:
+        if len(text) > 15:
             return await ctx.reply("Message too long!")
         await ctx.reply(f"```\n{art.text2art(text)}\n```")
 
@@ -35,8 +35,38 @@ class misc(commands.Cog):
     async def art(self, ctx, query):
         try:
             await ctx.reply(f"```\n{art.art(query)}\n```")  
-        except artError:
-            await ctx.reply("Invalid art!")       
+        except art.artError:
+            await ctx.reply("Invalid art!")    
+
+    @commands.command()
+    async def passed(self, ctx, user:discord.User=None):
+        if user == None:
+            user = ctx.author           
+        request = requests.get(f"https://some-random-api.ml/canvas/passed?avatar={user.avatar_url_as(format='png')}")
+        file=open("./assests/passed.png", "wb")
+        file.write(request.content)
+        file.close()
+        await ctx.reply(file=discord.File("./assests/passed.png"))   
+
+    @commands.command()
+    async def triggered(self, ctx, user:discord.User=None):
+        if user == None:
+            user = ctx.author
+        request = requests.get(f"https://some-random-api.ml/canvas/triggered?avatar={user.avatar_url_as(format='png')}")
+        file=open("./assests/triggered.gif", "wb")
+        file.write(request.content)
+        file.close()
+        await ctx.reply(file=discord.File("./assests/triggered.gif")) 
+
+    @commands.command()
+    async def comrade(self, ctx, user:discord.User=None):
+        if user == None:
+            user = ctx.author
+        request=requests.get(f"https://some-random-api.ml/canvas/comrade?avatar={user.avatar_url_as(format='png')}")
+        file=open("./assests/comrade.png", "wb")
+        file.write(request.content)
+        file.close()
+        await ctx.reply(file=discord.File("./assests/comrade.png"))                
 
 
 

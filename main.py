@@ -91,13 +91,13 @@ async def reload(ctx, cog):
 @commands.is_owner()
 async def eval(ctx, *, code:str):
     try:
-        eval(code)
-        output = eval(code)
+        await eval(code)
+        output = await eval(code)
         status = 200
     except Exception as e:
         output = e
         status = 400
-    await ctx.reply(f"Evaluation exited with return status: {status}, ```py\n[in]:\n{code}\n[out]:\n[output]\n```")
+    await ctx.reply(f"Evaluation exited with return status: {status}, ```py\n[in]:\n{code}\n[out]:\n{output}n```")
 
 with open("secrets.json", "r") as f:
     a=json.load(f)

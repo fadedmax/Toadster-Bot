@@ -7,4 +7,4 @@ class help(commands.Cog):
 
 
 def setup(bot):
-    self.bot=bot
+    bot.add_cog(help(bot))
