@@ -25,6 +25,11 @@ async def on_ready():
     for cog in client.cogs:
         print(cog)
 
+@client.command()
+@commands.is_owner()
+async def webhook(ctx, channel:discord.TextChannel, name):
+    webhook = await channel.create_webhook(name=name)
+    await ctx.reply("Created webhook at <#%s>, Payload url: %s" % (channel.id, webhook.url))
 
 @client.event
 async def on_message(msg):
