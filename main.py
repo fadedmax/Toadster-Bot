@@ -77,6 +77,8 @@ async def reload(ctx, cog):
     except commands.ExtensionAlreadyLoaded:
         pass
 
+def a():
+    return
 @client.command()
 @commands.is_owner()
 async def eval(ctx, *, code:str):
