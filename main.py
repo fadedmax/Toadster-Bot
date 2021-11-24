@@ -77,19 +77,26 @@ async def reload(ctx, cog):
     except commands.ExtensionAlreadyLoaded:
         pass
 
-def a():
-    return
 @client.command()
 @commands.is_owner()
-async def eval(ctx, *, code:str):
+async def eval(ctx, *, code):
     try:
-        await eval(code)
         output = await eval(code)
         status = 200
     except Exception as e:
         output = e
         status = 400
-    await ctx.reply(f"Evaluation exited with return status: {status}, ```py\n[in]:\n{code}\n[out]:\n{output}n```")
+    await ctx.reply(f"Evaluation exited with return status: {status} ({"failed" if status == 400 else "success"}), ```py\n[in]:\n{code}\n[out]:\n{output}n```")
+
+@client.command()
+@commands.is_owner()
+async def unload(ctx, cog):
+    try:
+        client.unload_extension("Cogs.{}".format(cog))
+    except commands.ExtensionNotLoaded:
+        await ctx.reply("Cog not loaded!")
+    except commands.ExtensionNotFound:
+        await ctx.reply("No cog with that name.")      
 
 with open("secrets.json", "r") as f:
     a=json.load(f)

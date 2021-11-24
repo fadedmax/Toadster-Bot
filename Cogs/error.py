@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import bot
 
 class ErrorHandler(commands.Cog):
     def __init__(self, bot):
@@ -12,9 +11,9 @@ class ErrorHandler(commands.Cog):
         elif isinstance(error, commands.BotMissingPermissions):
             await ctx.reply(f"I am missing the permission: {commands.MissingPermissions.missing_perms[0]} to perform that action")
         elif isinstance(error, commands.MissingRequiredArgument):
-            await ctx.reply(f"You are missing a required argument, check our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
+            await ctx.reply(f"You are missing a required argument, exception:\n```\n{error.args[0]}\n```check our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
         elif isinstance(error, commands.BadArgument):
-            await ctx.reply(f"Invalid arguments! Check our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
+            await ctx.reply(f"Invalid arguments! exception:\n```\n{error.args[0]}\n```\nCheck our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
         elif isinstance(error, commands.CommandNotFound):
             await ctx.reply("That command doesnt even exist!")
         elif isinstance(error, commands.CommandOnCooldown):
@@ -24,7 +23,7 @@ class ErrorHandler(commands.Cog):
         elif isinstance(error, commands.ExtensionFailed):
             await ctx.reply(f"Error occured while running this command, exception: ```diff\n-{commands.ExtensionFailed.original}\n```")
         elif isinstance(error, commands.TooManyArguments):
-            await ctx.reply(f"Too many arguments! Check out our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
+            await ctx.reply(f"Too many arguments! exception:\n```\n{error.args[0]}\n```Check out our documentation to see the usages! https://github.com/osam7a/Toadster-Bot/wiki")
         elif isinstance(error, commands.NotOwner):
             await ctx.reply("You are not a developer/owner to do that!")
         elif isinstance(error, commands.MessageNotFound):

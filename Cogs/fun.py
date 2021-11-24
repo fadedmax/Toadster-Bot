@@ -156,5 +156,50 @@ class fun(commands.Cog):
         embed6=discord.Embed(title="The totally real hack just finished.", color=discord.Colour.blue())
         await msg.edit(embed=embed6)
 
+
+    @commands.command()
+    async def encrypt(self, ctx, shift:int, *, text):
+        result = ''
+        if shift > 20:
+            return await ctx.reply("Shift too long!")
+        for a in range(len(text)):
+            i = text[a]
+            if (i.isupper()):
+                result += chr((ord(i) - shift - 65) + 65)
+            else:
+                result += chr((ord(i) - shift - 97) + 97)    
+        await ctx.reply(f"Encrypted your message with shift: {shift}, result: **{result}**") 
+
+    @commands.command()
+    async def decrypt(self, ctx, shift, *, text):
+        result = ''  
+        if shift.isalpha() == False:
+            for a in range(len(text)):
+                i = text[a]
+                if (i.isupper()):
+                    result += chr((ord(i) + int(shift) + 65) - 65)
+                else:
+                    result += chr((ord(i) + int(shift) + 97) - 97)     
+            return await ctx.reply(f"Decrypted your message, result: **{result}**") 
+        else:
+            message = text #encrypted message
+            LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            test=[]
+            for key in range(len(LETTERS)):
+                translated = ''
+                result = ''
+                for symbol in message:
+                    if symbol in LETTERS:
+                        num = LETTERS.find(symbol)
+                        num = num - key
+                        if num < 0:
+                            num = num + len(LETTERS)
+                            translated = translated + LETTERS[num]
+                        else:
+                            translated = translated + symbol
+                result += "`Key #%s: %s` " % (key, translated)
+                test.append(result)
+            await ctx.reply(f"Decryption ended with **{len(LETTERS)}** Possiblities:\n{''.join(test)}")                          
+
 def setup(bot):
     bot.add_cog(fun(bot))
