@@ -66,12 +66,19 @@ class fun(commands.Cog):
         json = request.json()
         await ctx.send(f"{user.mention} {json['insult']}")
     @commands.command()
-    async def snipe(self, ctx):
+    async def snipe(self, ctx, limit:int=None):
+         if limit > 10:
+             return await ctx.reply("Too high limit! Max 10")
          with open("./dicts/deleted_messages.json", "r") as f:
             load= json.load(f)
+         result = ''   
          last_msg = load[len(load)-1]
-         last_msg_str = last_msg['message']['content']
-         await ctx.send(f"**{last_msg['message']['author']} Said: {last_msg_str}**")
+         if limit == None:
+             return await ctx.reply(f"{last_msg['message']['author']} Said: {last_msg['message']['content']}")
+         else:
+             for i in load[len(load)-1-limit:len(load)-1]:
+                 result += f"{i['message']['author']} Said: {i['message']['content']}\n"  
+             return await ctx.reply(result)      
 
     @commands.command()
     async def rpc(self, ctx):
@@ -160,7 +167,7 @@ class fun(commands.Cog):
     @commands.command()
     async def encrypt(self, ctx, shift:int, *, text):
         result = ''
-        if shift > 20:
+        if shift > 25:
             return await ctx.reply("Shift too long!")
         for a in range(len(text)):
             i = text[a]
@@ -183,7 +190,12 @@ class fun(commands.Cog):
             return await ctx.reply(f"Decrypted your message, result: **{result}**") 
         else:
             message = text #encrypted message
-            LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            if message.isupper():
+                LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            elif message.islower():
+                LETTERS = "abcdefghijklmnopqrstuvwxyz"
+            else:
+                LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"        
             test=[]
             for key in range(len(LETTERS)):
                 translated = ''

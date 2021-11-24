@@ -13,6 +13,8 @@ class listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, msg):
+        if "https:" or "discord.gg" in msg.content:
+            return
         if msg.author.bot:
             return
         with open("./dicts/deleted_messages.json", "r") as f:

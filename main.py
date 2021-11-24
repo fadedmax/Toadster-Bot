@@ -3,12 +3,10 @@ from discord.ext import commands
 import os
 from dislash import InteractionClient, Option, OptionType
 import json
-from discord_slash import SlashCommand
 
 
 intents=discord.Intents().all()
 client = commands.Bot(command_prefix="g?", case_insensitive=True, help_command=None, intents=intents)
-slash = SlashCommand(client, sync_commands=True)
 inter_client = InteractionClient(client)
 
     
@@ -21,6 +19,7 @@ async def on_ready():
     client.load_extension("Cogs.moderation")
     client.load_extension("Cogs.help")
     client.load_extension("Cogs.error")
+    await client.cogs["Music"].start_nodes()
 
     for cog in client.cogs:
         print(cog)
@@ -86,7 +85,7 @@ async def eval(ctx, *, code):
     except Exception as e:
         output = e
         status = 400
-    await ctx.reply(f"Evaluation exited with return status: {status} ({"failed" if status == 400 else "success"}), ```py\n[in]:\n{code}\n[out]:\n{output}n```")
+    await ctx.reply(f'Evaluation exited with return status: {status} ({"failed" if status == 400 else "success"}), ```py\n[in]:\n{code}\n[out]:\n{output}n```')
 
 @client.command()
 @commands.is_owner()

@@ -13,10 +13,6 @@ class usercommands(commands.Cog):
             a.append(f"`{i.name} | Made by: {i.brief}`\n")
         await ctx.reply("".join(a))    
 
-
-    @commands.command(brief="Owner")
-    async def customcommands(self,ctx): 
-        await ctx.reply(embed=discord.Embed(title="Custom commands", description="Toadster bot provides custom commands for users!").add_field(name="How toget my own?", value="First you have to join the server called \"RealCraft\" in partnered servers, you have to stay there, then you have to dm osam7a#1017 with the following format \n**Name**:<Name of command>\n**Description**:<What do you want the command to do?>\n**Proof**:<Screenshot that you are in the server, you have to send me a screenshot every 2 days or your command will be disabled>\n**Type**:<embed/slash command/normal command/image>"))    
     @commands.command(brief="pickle#5873")
     async def syrup(self,ctx):
         request=requests.get("https://cdn.discordapp.com/attachments/912105006692462652/912759335501840414/two-black-men-kissing-meme-by-jridge98-redbubble-49380539.png")
