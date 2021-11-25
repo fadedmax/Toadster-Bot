@@ -20,9 +20,9 @@ class listeners(commands.Cog):
         with open("./dicts/deleted_messages.json", "r") as f:
             load = json.load(f)
 
-            dict = {f"message":{"content":f"{msg.content}", "author":f"{msg.author}"}}
-            load.append(dict)
-            with open("./dicts/deleted_messages.json", "w") as f2:
+        dict = {f"message":{"content":f"{msg.content}", "author":f"{msg.author}"}}
+        load.append(dict)
+        with open("./dicts/deleted_messages.json", "w") as f2:
                 json.dump(load, f2)
 
     @commands.Cog.listener()
@@ -34,6 +34,18 @@ class listeners(commands.Cog):
                 json.dump(users, f2)
         else:
             return
+
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if before.author.bot:
+            return
+        else:
+            with open("./dicts/edited_msgs.json", "r") as f:
+                load = json.load(f)  
+            dicta={"author":f"{before.author}", "before":f"{before.content}", "after":f"{after.content}"}              
+            load.append(dicta)    
+            with open("./dicts/edited_msgs.json", "w") as f:
+                json.dump(load, f)
 
 
                 

@@ -19,6 +19,8 @@ async def on_ready():
     client.load_extension("Cogs.moderation")
     client.load_extension("Cogs.help")
     client.load_extension("Cogs.error")
+    client.load_extension("Cogs.slashcommands")
+    client.load_extension("Cogs.usercommands")
     await client.cogs["Music"].start_nodes()
 
     for cog in client.cogs:

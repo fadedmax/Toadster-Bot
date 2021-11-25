@@ -23,6 +23,8 @@ class fun(commands.Cog):
 
     @commands.command()
     async def reddit(self, ctx, subreddit):
+            if subreddit == "boobs" or subreddit == "ass" or subreddit == "porn" or subreddit == "nsfw" or subreddit == "tits" or subreddit == "daddy":
+                return await ctx.reply("NSFW Is not allowed!")
             request = requests.get(f"https://meme-api.herokuapp.com/gimme/{subreddit}")
             json = request.json()
             embed=discord.Embed(title=json['title'], url=json['postLink'])
@@ -64,11 +66,14 @@ class fun(commands.Cog):
             user = ctx.author
         request = requests.get("https://evilinsult.com/generate_insult.php?lang=en&type=json")
         json = request.json()
-        await ctx.send(f"{user.mention} {json['insult']}")
+        result = json['insult']
+        x = result.replace("&quot;", "\"")
+        await ctx.send(f"{user.mention} {x}")
     @commands.command()
     async def snipe(self, ctx, limit:int=None):
-         if limit > 10:
-             return await ctx.reply("Too high limit! Max 10")
+         if limit != None:
+             if limit > 10:
+                 return await ctx.reply("Too high limit! Max 10")
          with open("./dicts/deleted_messages.json", "r") as f:
             load= json.load(f)
          result = ''   
@@ -77,7 +82,7 @@ class fun(commands.Cog):
              return await ctx.reply(f"{last_msg['message']['author']} Said: {last_msg['message']['content']}")
          else:
              for i in load[len(load)-1-limit:len(load)-1]:
-                 result += f"{i['message']['author']} Said: {i['message']['content']}\n"  
+                 result += f"\n{i['message']['author']} Said: {i['message']['content']}"  
              return await ctx.reply(result)      
 
     @commands.command()
@@ -211,7 +216,23 @@ class fun(commands.Cog):
                             translated = translated + symbol
                 result += "`Key #%s: %s` " % (key, translated)
                 test.append(result)
-            await ctx.reply(f"Decryption ended with **{len(LETTERS)}** Possiblities:\n{''.join(test)}")                          
+            await ctx.reply(f"Decryption ended with **{len(LETTERS)}** Possiblities:\n{''.join(test)}")   
+
+    @commands.command()
+    async def lastEdited(self, ctx, limit:int=None):
+        if limit != None:
+             if limit > 10:
+                 return await ctx.reply("Too high limit! Max 10")
+        f=open("./dicts/edited_msgs.json", "r")
+        load = json.load(f)
+        result = ''
+        if limit == None:
+            i=load[len(load)-1]
+            result += f"Author: {i['author']}, Before: {i['before']}, After: {i['after']}" 
+        else:
+            for i in load[len(load)-1-limit:len(load)-1]:
+                result += f"\n**Author: {i['author']}, Before: {i['before']}, After: {i['after']}**"  
+        await ctx.reply(result)                              
 
 def setup(bot):
     bot.add_cog(fun(bot))
