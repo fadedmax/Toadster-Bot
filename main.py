@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from keep_alive import keep_alive
 from dislash import InteractionClient, Option, OptionType
 import json
 
@@ -21,7 +22,6 @@ async def on_ready():
     client.load_extension("Cogs.error")
     client.load_extension("Cogs.slashcommands")
     client.load_extension("Cogs.usercommands")
-    await client.cogs["Music"].start_nodes()
 
     for cog in client.cogs:
         print(cog)
@@ -99,7 +99,5 @@ async def unload(ctx, cog):
     except commands.ExtensionNotFound:
         await ctx.reply("No cog with that name.")      
 
-with open("secrets.json", "r") as f:
-    a=json.load(f)
-    token=a['TOKEN']
-client.run(token)
+keep_alive()
+client.run(os.getenv("TOKEN"))
