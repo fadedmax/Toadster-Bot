@@ -83,7 +83,7 @@ class fun(commands.Cog):
          else:
              for i in load[len(load)-1-limit:len(load)-1]:
                  result += f"\n{i['message']['author']} Said: {i['message']['content']}"  
-             return await ctx.reply(result)      
+             return await ctx.reply(result, allowed_mentions=discord.AllowedMentions.none())      
 
     @commands.command()
     async def rpc(self, ctx):
